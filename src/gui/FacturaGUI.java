@@ -19,7 +19,8 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
      */
     DefaultTableModel dtm;
     boolean sw;
-
+    static double precio = 0.0;
+    
     public FacturaGUI() {
         initComponents();
         setVisible(true);
@@ -348,6 +349,13 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         // TODO add your handling code here:
+        int cantidad = Integer.parseInt(txtCantidad.getText().trim());
+        if (cantidad <= 0) {
+            txtImporte.setText("");
+            return;
+        }
+        double importe = precio * cantidad;
+        txtImporte.setText(String.valueOf(importe));
     }//GEN-LAST:event_txtCantidadKeyReleased
 
 
@@ -413,15 +421,16 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         btnSalir.setEnabled(!b);
         txtCantidad.grabFocus();
     }
-
+    
     private void limpiarControles() {
         limpiarTable();
         JTextField[] txt = {txtFactura, txtFecha, txtCodCliente, txtNombClie, txtCodEmpleado, txtNombEmpl, txtApatEmpl, txtAmatEmpl, txtCodProducto, txtNombProd, txtCantidad, txtImporte};
         for (JTextField t : txt) {
             t.setText(null);
         }
+        precio = 0.0;
     }
-
+    
     private void limpiarTable() {
         if (dtm.getRowCount() > 0) {
             dtm.setRowCount(0);

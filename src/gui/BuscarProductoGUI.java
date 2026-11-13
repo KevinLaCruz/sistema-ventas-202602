@@ -138,6 +138,7 @@ public class BuscarProductoGUI extends javax.swing.JInternalFrame {
         try {
             FacturaGUI.txtCodProducto.setText(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
             FacturaGUI.txtNombProd.setText(tblProducto.getValueAt(tblProducto.getSelectedRow(), 1).toString());
+            FacturaGUI.precio = Double.parseDouble(tblProducto.getValueAt(tblProducto.getSelectedRow(), 2).toString());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Error: " + e);
         }
