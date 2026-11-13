@@ -20,7 +20,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
     DefaultTableModel dtm;
     boolean sw;
     static double precio = 0.0;
-    
+
     public FacturaGUI() {
         initComponents();
         setVisible(true);
@@ -349,13 +349,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
         // TODO add your handling code here:
-        int cantidad = Integer.parseInt(txtCantidad.getText().trim());
-        if (cantidad <= 0) {
-            txtImporte.setText("");
-            return;
-        }
-        double importe = precio * cantidad;
-        txtImporte.setText(String.valueOf(importe));
+        calcularImporte();
     }//GEN-LAST:event_txtCantidadKeyReleased
 
 
@@ -394,14 +388,14 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblFactura;
     public static javax.swing.JTextField txtAmatEmpl;
     public static javax.swing.JTextField txtApatEmpl;
-    private javax.swing.JTextField txtCantidad;
+    public static javax.swing.JTextField txtCantidad;
     public static javax.swing.JTextField txtCodCliente;
     public static javax.swing.JTextField txtCodEmpleado;
     public static javax.swing.JTextField txtCodProducto;
     private javax.swing.JTextField txtFactura;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtIgv;
-    private javax.swing.JTextField txtImporte;
+    public static javax.swing.JTextField txtImporte;
     public static javax.swing.JTextField txtNombClie;
     public static javax.swing.JTextField txtNombEmpl;
     public static javax.swing.JTextField txtNombProd;
@@ -421,7 +415,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         btnSalir.setEnabled(!b);
         txtCantidad.grabFocus();
     }
-    
+
     private void limpiarControles() {
         limpiarTable();
         JTextField[] txt = {txtFactura, txtFecha, txtCodCliente, txtNombClie, txtCodEmpleado, txtNombEmpl, txtApatEmpl, txtAmatEmpl, txtCodProducto, txtNombProd, txtCantidad, txtImporte};
@@ -430,10 +424,25 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         }
         precio = 0.0;
     }
-    
+
     private void limpiarTable() {
         if (dtm.getRowCount() > 0) {
             dtm.setRowCount(0);
         }
+    }
+
+    public static void calcularImporte() {
+        String textoCantidad = txtCantidad.getText().trim();
+        if (textoCantidad.isEmpty()) {
+            txtImporte.setText("");
+            return;
+        }
+        int cantidad = Integer.parseInt(textoCantidad);
+        if (cantidad <= 0) {
+            txtImporte.setText("");
+            return;
+        }
+        double importe = precio * cantidad;
+        txtImporte.setText(String.valueOf(importe));
     }
 }
