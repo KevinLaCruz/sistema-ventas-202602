@@ -1,1 +1,1 @@
-# sistema-ventas-202602
+# SISTEMA DE VENTAS - 2026
