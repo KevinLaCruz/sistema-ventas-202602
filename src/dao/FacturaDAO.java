@@ -14,13 +14,13 @@ import conexion.ConexionMySQL;
  *
  * @author Kevin La Cruz
  */
-public class FacturaDAO implements SistemaInterface<FacturaTO>{
+public class FacturaDAO implements SistemaInterface<FacturaTO> {
 
     @Override
     public void insert(FacturaTO objObjeto) throws Exception {
-        Connection cn=ConexionMySQL.getInstance().getCn();
-        String sql="CALL sp_insert_factura(?,?,?,?,?);";
-        CallableStatement cs=cn.prepareCall(sql);
+        Connection cn = ConexionMySQL.getInstance().getCn();
+        String sql = "CALL sp_insert_factura(?,?,?,?,?);";
+        CallableStatement cs = cn.prepareCall(sql);
         cs.setInt(1, objObjeto.getId_cliente());
         cs.setInt(2, objObjeto.getId_empleado());
         cs.setDouble(3, objObjeto.getStot_fact());
@@ -43,5 +43,14 @@ public class FacturaDAO implements SistemaInterface<FacturaTO>{
     public ResultSet search(Object objObject) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    public int obtenerFactura() throws Exception {
+        Connection cn = ConexionMySQL.getInstance().getCn();
+        try (PreparedStatement ps = cn.prepareStatement("SELECT LAST_INSERT_ID()"); ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            throw new SQLException("No se pudo obtener el ID de la factura.");
+        }
+    }
 }

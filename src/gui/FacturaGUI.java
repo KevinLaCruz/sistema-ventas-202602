@@ -4,9 +4,13 @@
  */
 package gui;
 
+import dao.DetalleFacturaDAO;
+import dao.FacturaDAO;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import to.DetalleFacturaTO;
+import to.FacturaTO;
 
 /**
  *
@@ -20,12 +24,20 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
     DefaultTableModel dtm;
     boolean sw;
     static double precio = 0.0;
+    static double importe = 0.0;
+    double subTotal;
+    double igv;
+    double total;
+    FacturaDAO objFacturaDAO;
+    DetalleFacturaDAO objDetalleFacturaDAO;
 
     public FacturaGUI() {
         initComponents();
         setVisible(true);
         dtm = (DefaultTableModel) tblFactura.getModel();
         setSize(750, 900);
+        objFacturaDAO = new FacturaDAO();
+        objDetalleFacturaDAO = new DetalleFacturaDAO();
     }
 
     /**
@@ -100,7 +112,11 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         lblNombClie.setText("NOMBRE");
         pnlCliente.add(lblNombClie, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        txtCodCliente.setEditable(false);
         pnlCliente.add(txtCodCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 125, -1));
+
+        txtNombClie.setEditable(false);
         pnlCliente.add(txtNombClie, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 375, -1));
 
         btnBuscarCliente.setText("...");
@@ -119,8 +135,14 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         lblApatEmpl.setText("AP. PATERNO");
         pnlEmpleado.add(lblApatEmpl, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        txtCodEmpleado.setEditable(false);
         pnlEmpleado.add(txtCodEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 125, -1));
+
+        txtNombEmpl.setEditable(false);
         pnlEmpleado.add(txtNombEmpl, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 375, -1));
+
+        txtApatEmpl.setEditable(false);
         pnlEmpleado.add(txtApatEmpl, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 125, -1));
 
         lblAmatEmpl.setText("AP. MATERNO");
@@ -130,6 +152,8 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         btnBuscarEmpleado.setEnabled(false);
         btnBuscarEmpleado.addActionListener(this::btnBuscarEmpleadoActionPerformed);
         pnlEmpleado.add(btnBuscarEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 30, 50, -1));
+
+        txtAmatEmpl.setEditable(false);
         pnlEmpleado.add(txtAmatEmpl, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 125, -1));
 
         pnlFactura.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -143,8 +167,14 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         lblImporte.setText("IMPORTE");
         pnlFactura.add(lblImporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+
+        txtCodProducto.setEditable(false);
         pnlFactura.add(txtCodProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 125, -1));
+
+        txtNombProd.setEditable(false);
         pnlFactura.add(txtNombProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 125, -1));
+
+        txtImporte.setEditable(false);
         pnlFactura.add(txtImporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 125, -1));
 
         btnBuscarProducto.setText("...");
@@ -165,10 +195,12 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         btnAgregar.setText("AGREGAR REGISTRO");
         btnAgregar.setEnabled(false);
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
         pnlFactura.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, 140, -1));
 
         btnQuitar.setText("QUITAR REGISTRO");
         btnQuitar.setEnabled(false);
+        btnQuitar.addActionListener(this::btnQuitarActionPerformed);
         pnlFactura.add(btnQuitar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 140, -1));
 
         tblFactura.setModel(new javax.swing.table.DefaultTableModel(
@@ -198,6 +230,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         btnGrabar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/grabar.png"))); // NOI18N
         btnGrabar.setText("GRABAR");
         btnGrabar.setEnabled(false);
+        btnGrabar.addActionListener(this::btnGrabarActionPerformed);
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/cancelar.png"))); // NOI18N
         btnCancelar.setText("CANCELAR");
@@ -248,8 +281,14 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
         lblTotal.setText("TOTAL");
         pnlPrecio.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        txtSubTotal.setEditable(false);
         pnlPrecio.add(txtSubTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 150, -1));
+
+        txtIgv.setEditable(false);
         pnlPrecio.add(txtIgv, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 150, -1));
+
+        txtTotal.setEditable(false);
         pnlPrecio.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 150, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -352,6 +391,71 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         calcularImporte();
     }//GEN-LAST:event_txtCantidadKeyReleased
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        if (importe == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad mayor a 0.");
+        } else {
+            int cont = 0;
+            int xid_producto = Integer.parseInt(txtCodProducto.getText());
+            boolean sw = false;
+            Object[] row = {txtCodProducto.getText(), txtNombProd.getText(), precio, txtCantidad.getText(), importe};
+            if (dtm.getRowCount() == 0) {
+                dtm.addRow(row);
+            } else {
+                while (cont < dtm.getRowCount()) {
+                    if (xid_producto == Integer.parseInt(tblFactura.getValueAt(cont, 0).toString())) {
+                        sw = true;
+                        JOptionPane.showMessageDialog(rootPane, "El registro ya existe.");
+                        cont = dtm.getRowCount();
+                    }
+                    cont++;
+                }
+                if (!sw) {
+                    dtm.addRow(row);
+                }
+            }
+        }
+        calcularTotales();
+        limpiarProducto();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int xid_factura;
+            FacturaTO f = new FacturaTO();
+            f.setId_cliente(Integer.parseInt(txtCodCliente.getText()));
+            f.setId_empleado(Integer.parseInt(txtCodEmpleado.getText()));
+            f.setStot_fact(subTotal);
+            f.setIgv_fact(igv);
+            f.setTota_fact(total);
+            objFacturaDAO.insert(f);
+            xid_factura = objFacturaDAO.obtenerFactura();
+            int rows = dtm.getRowCount();
+            for (int i = 0; i < rows; i++) {
+                DetalleFacturaTO df = new DetalleFacturaTO();
+                df.setId_factura(xid_factura);
+                df.setId_producto(Integer.parseInt(tblFactura.getValueAt(i, 0).toString()));
+                df.setPrec_prod(Double.parseDouble(tblFactura.getValueAt(i, 2).toString()));
+                df.setCantidad(Integer.parseInt(tblFactura.getValueAt(i, 3).toString()));
+                df.setImporte(Double.parseDouble(tblFactura.getValueAt(i, 4).toString()));
+                objDetalleFacturaDAO.insert(df);
+            }
+            habilitarControles(false);
+            JOptionPane.showMessageDialog(rootPane, "Registros grabados.");
+            limpiarControles();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error: " + e);
+        }
+    }//GEN-LAST:event_btnGrabarActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+        dtm.removeRow(tblFactura.getSelectedRow());
+        calcularTotales();
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -418,7 +522,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
     private void limpiarControles() {
         limpiarTable();
-        JTextField[] txt = {txtFactura, txtFecha, txtCodCliente, txtNombClie, txtCodEmpleado, txtNombEmpl, txtApatEmpl, txtAmatEmpl, txtCodProducto, txtNombProd, txtCantidad, txtImporte};
+        JTextField[] txt = {txtFactura, txtFecha, txtCodCliente, txtNombClie, txtCodEmpleado, txtNombEmpl, txtApatEmpl, txtAmatEmpl, txtCodProducto, txtNombProd, txtCantidad, txtImporte, txtSubTotal, txtIgv, txtTotal};
         for (JTextField t : txt) {
             t.setText(null);
         }
@@ -442,7 +546,33 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
             txtImporte.setText("");
             return;
         }
-        double importe = precio * cantidad;
+        importe = precio * cantidad;
         txtImporte.setText(String.valueOf(importe));
+    }
+
+    private void limpiarProducto() {
+        txtCodProducto.setText("");
+        txtNombProd.setText("");
+        txtCantidad.setText("");
+        txtImporte.setText("");
+        precio = 0.0;
+        importe = 0.0;
+    }
+
+    private void calcularTotales() {
+        subTotal = 0.0;
+        igv = 0.0;
+        total = 0.0;
+        int rows = dtm.getRowCount();
+        int cont = 0;
+        while (cont < rows) {
+            total = total + Double.parseDouble(dtm.getValueAt(cont, 4).toString());
+            cont++;
+        }
+        subTotal = total / 1.18;
+        igv = total - subTotal;
+        txtSubTotal.setText(String.format("%.2f", subTotal));
+        txtIgv.setText(String.format("%.2f", igv));
+        txtTotal.setText(String.format("%.2f", total));
     }
 }

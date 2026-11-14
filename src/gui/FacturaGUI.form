@@ -141,6 +141,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCodCliente">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -151,6 +154,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNombClie">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -220,6 +226,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCodEmpleado">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -230,6 +239,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNombEmpl">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -240,6 +252,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtApatEmpl">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -274,6 +289,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtAmatEmpl">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -329,6 +347,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtCodProducto">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -339,6 +360,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNombProd">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -349,6 +373,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtImporte">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -403,6 +430,9 @@
             <Property name="text" type="java.lang.String" value="AGREGAR REGISTRO"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="290" y="110" width="140" height="-1"/>
@@ -414,6 +444,9 @@
             <Property name="text" type="java.lang.String" value="QUITAR REGISTRO"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuitarActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="440" y="110" width="140" height="-1"/>
@@ -541,6 +574,9 @@
             <Property name="text" type="java.lang.String" value="GRABAR"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGrabarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnCancelar">
           <Properties>
@@ -611,6 +647,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSubTotal">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="120" y="20" width="150" height="-1"/>
@@ -618,6 +657,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIgv">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="120" y="50" width="150" height="-1"/>
@@ -625,6 +667,9 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTotal">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="120" y="80" width="150" height="-1"/>

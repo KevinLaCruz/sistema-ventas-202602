@@ -14,13 +14,13 @@ import conexion.ConexionMySQL;
  *
  * @author Kevin La Cruz
  */
-public class DetalleFacturaDAO implements SistemaInterface<DetalleFacturaTO>{
+public class DetalleFacturaDAO implements SistemaInterface<DetalleFacturaTO> {
 
     @Override
     public void insert(DetalleFacturaTO objObjeto) throws Exception {
-        Connection cn=ConexionMySQL.getInstance().getCn();
-        String sql="CALL sp_insert_detalle_factura(?,?,?,?,?);";
-        CallableStatement cs=cn.prepareCall(sql);
+        Connection cn = ConexionMySQL.getInstance().getCn();
+        String sql = "CALL sp_insert_detalle_factura(?,?,?,?,?);";
+        CallableStatement cs = cn.prepareCall(sql);
         cs.setInt(1, objObjeto.getId_factura());
         cs.setInt(2, objObjeto.getId_producto());
         cs.setDouble(3, objObjeto.getPrec_prod());
@@ -43,5 +43,4 @@ public class DetalleFacturaDAO implements SistemaInterface<DetalleFacturaTO>{
     public ResultSet search(Object objObject) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
 }
