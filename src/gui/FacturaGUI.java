@@ -393,21 +393,27 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        if (importe == 0) {
+        if (importe <= 0) {
             JOptionPane.showMessageDialog(rootPane, "Ingrese una cantidad mayor a 0.");
+            return;
         } else {
             int cont = 0;
             int xid_producto = Integer.parseInt(txtCodProducto.getText());
+            int cantidadN = Integer.parseInt(txtCantidad.getText().trim());
             boolean sw = false;
-            Object[] row = {txtCodProducto.getText(), txtNombProd.getText(), precio, txtCantidad.getText(), importe};
+            Object[] row = {txtCodProducto.getText(), txtNombProd.getText(), precio, cantidadN, importe};
             if (dtm.getRowCount() == 0) {
                 dtm.addRow(row);
             } else {
                 while (cont < dtm.getRowCount()) {
                     if (xid_producto == Integer.parseInt(tblFactura.getValueAt(cont, 0).toString())) {
+                        int cantidadA = Integer.parseInt(tblFactura.getValueAt(cont, 3).toString()) + cantidadN;
+                        double precioFila = Double.parseDouble(tblFactura.getValueAt(cont, 2).toString());
+                        double importeA = precioFila * cantidadA;
+                        tblFactura.setValueAt(cantidadA, cont, 3);
+                        tblFactura.setValueAt(importeA, cont, 4);
                         sw = true;
-                        JOptionPane.showMessageDialog(rootPane, "El registro ya existe.");
-                        cont = dtm.getRowCount();
+                        break;
                     }
                     cont++;
                 }
@@ -423,6 +429,16 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
     private void btnGrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGrabarActionPerformed
         // TODO add your handling code here:
         try {
+            if (dtm.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(rootPane, "Agregue al menos un producto.");
+                return;
+            }
+
+            if (txtCodCliente.getText().trim().isEmpty()
+                    || txtCodEmpleado.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Seleccione un cliente y un empleado.");
+                return;
+            }
             int xid_factura;
             FacturaTO f = new FacturaTO();
             f.setId_cliente(Integer.parseInt(txtCodCliente.getText()));
@@ -452,7 +468,12 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         // TODO add your handling code here:
-        dtm.removeRow(tblFactura.getSelectedRow());
+        int row = tblFactura.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(rootPane, "Seleccione un producto de la tabla.");
+            return;
+        }
+        dtm.removeRow(row);
         calcularTotales();
     }//GEN-LAST:event_btnQuitarActionPerformed
 
@@ -526,7 +547,11 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
         for (JTextField t : txt) {
             t.setText(null);
         }
+        subTotal = 0.0;
+        igv = 0.0;
+        total = 0.0;
         precio = 0.0;
+        importe = 0.0;
     }
 
     private void limpiarTable() {
@@ -536,6 +561,7 @@ public class FacturaGUI extends javax.swing.JInternalFrame {
     }
 
     public static void calcularImporte() {
+        importe = 0.0;
         String textoCantidad = txtCantidad.getText().trim();
         if (textoCantidad.isEmpty()) {
             txtImporte.setText("");
